@@ -9,7 +9,7 @@ potentially prevent a window from being created.
 TODO(loc): this patch is currently broken.
 
 diff --git a/content/browser/renderer_host/render_frame_host_impl.cc b/content/browser/renderer_host/render_frame_host_impl.cc
-index f9295c24641e9a7322f088c869d90423bcd36991..5ea6972f03fd450272de52c84f783be9113608bc 100644
+index f2649d48dc439a55baf2bdb40a5ec40c8cdce436..04c578542a20b60f7c909b4ad8532461900cb373 100644
 --- a/content/browser/renderer_host/render_frame_host_impl.cc
 +++ b/content/browser/renderer_host/render_frame_host_impl.cc
 @@ -8101,6 +8101,7 @@ void RenderFrameHostImpl::CreateNewWindow(
@@ -21,7 +21,7 @@ index f9295c24641e9a7322f088c869d90423bcd36991..5ea6972f03fd450272de52c84f783be9
            &no_javascript_access);
  
 diff --git a/content/browser/web_contents/web_contents_impl.cc b/content/browser/web_contents/web_contents_impl.cc
-index 355f0d796d3c6f0481a1a807b4f22113e09c8029..6354e6152d281d06fcd85c61b76d836bd5043e1a 100644
+index 1bd950d689c7a27a64fa3aa945de36261685a975..39fd878107c6c82be49b960670248837b978752a 100644
 --- a/content/browser/web_contents/web_contents_impl.cc
 +++ b/content/browser/web_contents/web_contents_impl.cc
 @@ -4371,6 +4371,12 @@ FrameTree* WebContentsImpl::CreateNewWindow(
@@ -210,10 +210,10 @@ index bef5a989bac50c177f15f52fe87ac3790d553e85..65dcd2e3b51929400c8bfb6a98a4fb59
  
  }  // namespace blink
 diff --git a/third_party/blink/renderer/core/frame/local_dom_window.cc b/third_party/blink/renderer/core/frame/local_dom_window.cc
-index cc84e51f5bb4fe4413faa69ae52c025c3b476a54..09599219703a682e565ae2d03b69211a1e564182 100644
+index 346a261dfd4f39a9051d234aaa62c28e377289ff..4cd1bfee8051aced7b742ac5a4ec5b35ad1b8ecd 100644
 --- a/third_party/blink/renderer/core/frame/local_dom_window.cc
 +++ b/third_party/blink/renderer/core/frame/local_dom_window.cc
-@@ -2165,6 +2165,8 @@ DOMWindow* LocalDOMWindow::open(v8::Isolate* isolate,
+@@ -2171,6 +2171,8 @@ DOMWindow* LocalDOMWindow::open(v8::Isolate* isolate,
    WebWindowFeatures window_features =
        GetWindowFeaturesFromString(features, entered_window);
  
