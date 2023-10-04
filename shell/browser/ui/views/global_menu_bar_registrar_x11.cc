@@ -57,9 +57,6 @@ GlobalMenuBarRegistrarX11::GlobalMenuBarRegistrarX11() {
 
 GlobalMenuBarRegistrarX11::~GlobalMenuBarRegistrarX11() {
   if (registrar_proxy_) {
-    g_signal_handlers_disconnect_by_func(
-        registrar_proxy_, reinterpret_cast<void*>(OnNameOwnerChangedThunk),
-        this);
     g_object_unref(registrar_proxy_);
   }
 }
@@ -113,8 +110,10 @@ void GlobalMenuBarRegistrarX11::OnProxyCreated(GObject* source,
 
   registrar_proxy_ = proxy;
 
-  g_signal_connect(registrar_proxy_, "notify::g-name-owner",
-                   G_CALLBACK(OnNameOwnerChangedThunk), this);
+  signal_ = ScopedGSignal(
+      registrar_proxy_, "notify::g-name-owner",
+      base::BindRepeating(&GlobalMenuBarRegistrarX11::OnNameOwnerChanged,
+                          base::Unretained(this)));
 
   OnNameOwnerChanged(nullptr, nullptr);
 }

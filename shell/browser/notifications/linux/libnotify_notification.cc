@@ -8,6 +8,7 @@
 #include <string>
 
 #include "base/files/file_enumerator.h"
+#include "base/functional/bind.h"
 #include "base/logging.h"
 #include "base/strings/utf_string_conversions.h"
 #include "shell/browser/notifications/notification_delegate.h"
@@ -87,8 +88,10 @@ void LibnotifyNotification::Show(const NotificationOptions& options) {
       base::UTF16ToUTF8(options.title).c_str(),
       base::UTF16ToUTF8(options.msg).c_str(), nullptr);
 
-  g_signal_connect(notification_, "closed",
-                   G_CALLBACK(OnNotificationClosedThunk), this);
+  signal_ = ScopedGSignal(
+      notification_, "closed",
+      base::BindRepeating(&LibnotifyNotification::OnNotificationClosed,
+                          base::Unretained(this)));
 
   // NB: On Unity and on any other DE using Notify-OSD, adding a notification
   // action will cause the notification to display as a modal dialog box.

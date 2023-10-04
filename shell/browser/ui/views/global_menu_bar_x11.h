@@ -66,12 +66,8 @@ class GlobalMenuBarX11 {
   void RegisterAccelerator(DbusmenuMenuitem* item,
                            const ui::Accelerator& accelerator);
 
-  CHROMEG_CALLBACK_1(GlobalMenuBarX11,
-                     void,
-                     OnItemActivated,
-                     DbusmenuMenuitem*,
-                     unsigned int);
-  CHROMEG_CALLBACK_0(GlobalMenuBarX11, void, OnSubMenuShow, DbusmenuMenuitem*);
+  void OnItemActivated(DbusmenuMenuitem* item, unsigned int timestamp);
+  void OnSubMenuShow(DbusmenuMenuitem* item);
 
   raw_ptr<NativeWindowViews> window_;
   x11::Window xwindow_;
